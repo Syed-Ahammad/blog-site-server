@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const authRoute = require('./routes/auth');
 const userRoute = require('./routes/users');
 const postRoute = require('./routes/posts');
+const categoryRoute = require('./routes/categories');
+const multer = require('multer');
 const dotenv = require("dotenv");
 
 const app = express();
@@ -35,6 +37,7 @@ async function main() {
 app.use('/auth', authRoute);
 app.use('/user', userRoute);
 app.use('/post', postRoute);
+app.use('/categories', categoryRoute);
 
 
 app.listen(port, () => {
