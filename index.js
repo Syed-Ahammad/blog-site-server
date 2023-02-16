@@ -4,11 +4,13 @@ const authRoute = require('./routes/auth');
 const userRoute = require('./routes/users');
 const postRoute = require('./routes/posts');
 const categoryRoute = require('./routes/categories');
+const cors = require('cors')
 const multer = require('multer');
 const dotenv = require("dotenv");
 
 const app = express();
 dotenv.config();
+app.use(cors())
 app.use(express.json());
 
 const port = process.env.PORT || 5000;
@@ -33,6 +35,20 @@ async function main() {
   
   console.log("MongoDB was connected");
 }
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb)=>{
+    cb(null, "images");
+  },
+  filename: (req, file, cb)=>{
+    cb(null, "hi.jpg");
+  },
+});
+
+const upload = multer({storage: storage});
+app.post("/upload", upload.single("file"), (req, res)=>{
+  res.status(200).json("File has been uploaded");
+});
 
 app.use('/auth', authRoute);
 app.use('/user', userRoute);
